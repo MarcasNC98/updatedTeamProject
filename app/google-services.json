@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "386652672114",
+    "firebase_url": "https://polling-3351e-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "polling-3351e",
+    "storage_bucket": "polling-3351e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386652672114:android:2c1033f579af0fd1cdf2eb",
+        "android_client_info": {
+          "package_name": "com.example.pollingtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "386652672114-1n43orgmjo2hh8087vtf18t7i4iampta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgIBe88pUfW_1oodzkGGODYIKHBx-PTnc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "386652672114-1n43orgmjo2hh8087vtf18t7i4iampta.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

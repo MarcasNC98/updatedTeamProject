@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">pollingTest</string>
+    <string name="enter_poll_name">Enter Poll Name</string>
+    <string name="enter_option">Enter Option</string>
+    <string name="enter_option_2">Enter Option 2</string>
+    <string name="enter_option_3">Enter Option 3</string>
+    <string name="enter_poll_image_link">Enter poll Image Link</string>
+    <string name="enter_poll_description">Enter poll Description</string>
+    <string name="add_your_poll">Add Your poll</string>
+</resources>
