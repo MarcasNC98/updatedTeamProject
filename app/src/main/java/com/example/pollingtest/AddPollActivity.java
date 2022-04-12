@@ -80,6 +80,7 @@ public class AddPollActivity extends AppCompatActivity {
                         // displaying a failure message on below line.
                         Toast.makeText(AddPollActivity.this, "Fail to add poll..", Toast.LENGTH_SHORT).show();
                     }
+
                 });
             }
         });
