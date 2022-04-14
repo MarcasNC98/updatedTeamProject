@@ -24,7 +24,7 @@ public class EditPollActivity extends AppCompatActivity {
 
     // creating variables for our edit text, firebase database,
     // database reference, Poll rv modal,progress bar.
-    private TextInputEditText PollNameEdt, PollDescEdt, PollImgEdt,voteOption1Edt,voteOption2Edt,voteOption3Edt;
+    private TextInputEditText PollNameEdt, PollDescEdt, PollImgEdt,Option1Edt,Option2Edt,Option3Edt;
     private Button updatePollBtn,deletePollBtn;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -38,14 +38,14 @@ public class EditPollActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_poll);
         // initializing all our variables on below line.
-        updatePollBtn = findViewById(R.id.idBtnVote);
+        updatePollBtn = findViewById(R.id.idBtnUpdate);
         deletePollBtn = findViewById(R.id.idBtnDeletePoll);
         PollNameEdt = findViewById(R.id.idEdtPollName);
         PollDescEdt = findViewById(R.id.idEdtPollDescription);
         PollImgEdt = findViewById(R.id.idEdtPollImageLink);
-        voteOption1Edt= findViewById(R.id.idEdtVoteOption1);
-        voteOption2Edt= findViewById(R.id.idEdtVoteOption2);
-        voteOption3Edt= findViewById(R.id.idEdtVoteOption3);
+        Option1Edt= findViewById(R.id.idEdtOption1);
+        Option2Edt= findViewById(R.id.idEdtVoteOption2);
+        Option3Edt= findViewById(R.id.idEdtOption3);
         loadingPB = findViewById(R.id.idPBLoading);
         votes1="0";
         votes2="0";
@@ -59,9 +59,9 @@ public class EditPollActivity extends AppCompatActivity {
             PollNameEdt.setText(pollRVModal.getPollName());
             PollImgEdt.setText(pollRVModal.getPollImg());
             PollDescEdt.setText(pollRVModal.getPollDescription());
-            voteOption1Edt.setText(pollRVModal.getOption1());
-            voteOption2Edt.setText(pollRVModal.getOption2());
-            voteOption3Edt.setText(pollRVModal.getOption3());
+            Option1Edt.setText(pollRVModal.getOption1());
+            Option2Edt.setText(pollRVModal.getOption2());
+            Option3Edt.setText(pollRVModal.getOption3());
             pollID = pollRVModal.getPollId();
         }
         // on below line we are initialing our database reference and we are adding a child as our Poll id.
@@ -77,9 +77,9 @@ public class EditPollActivity extends AppCompatActivity {
                 String pollName = PollNameEdt.getText().toString();
                 String pollDesc = PollDescEdt.getText().toString();
                 String pollImg = PollImgEdt.getText().toString();
-                String option1= voteOption1Edt.getText().toString();
-                String option2= voteOption2Edt.getText().toString();
-                String option3= voteOption3Edt.getText().toString();
+                String option1= Option1Edt.getText().toString();
+                String option2= Option2Edt.getText().toString();
+                String option3= Option3Edt.getText().toString();
                 // on below line we are creating a map for
                 // passing a data using key and value pair.
                 Map<String, Object> map = new HashMap<>();

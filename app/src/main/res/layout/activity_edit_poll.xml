@@ -109,7 +109,7 @@
                 app:hintTextColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/idEdtVoteOption1"
+                    android:id="@+id/idEdtOption1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
@@ -159,7 +159,7 @@
                 app:hintTextColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/idEdtVoteOption3"
+                    android:id="@+id/idEdtOption3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
@@ -178,7 +178,7 @@
 
                 <!--button for updating a new Poll-->
                 <Button
-                    android:id="@+id/idBtnVote"
+                    android:id="@+id/idBtnUpdate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
