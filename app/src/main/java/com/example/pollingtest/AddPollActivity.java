@@ -26,14 +26,15 @@ public class AddPollActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private ProgressBar loadingPB;
-    private String pollID,votes1,votes2,votes3;
+    private String pollID;
+    private Integer votes1,votes2,votes3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_poll);
         // initializing all our variables.
-        addPollBtn = findViewById(R.id.idBtnUpdate);
+        addPollBtn = findViewById(R.id.idBtnAdd);
         pollNameEdt = findViewById(R.id.idEdtPollName);
         pollDescEdt = findViewById(R.id.idEdtPollDescription);
         pollImgEdt = findViewById(R.id.idEdtPollImageLink);
@@ -41,9 +42,9 @@ public class AddPollActivity extends AppCompatActivity {
         Option2Edt= findViewById(R.id.idEdtVoteOption2);
         Option3Edt= findViewById(R.id.idEdtOption3);
         loadingPB = findViewById(R.id.idPBLoading);
-        votes1="0";
-        votes2="0";
-        votes3="0";
+        votes1=0;
+        votes2=0;
+        votes3=0;
         firebaseDatabase = FirebaseDatabase.getInstance();
         // on below line creating our database reference.
         databaseReference = firebaseDatabase.getReference("polls");

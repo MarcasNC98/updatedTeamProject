@@ -23,12 +23,13 @@ import java.util.Map;
 
 public class VotingActivity extends AppCompatActivity {
 
-    private TextInputEditText PollNameEdt, PollDescEdt, PollImgEdt, Option1Edt, Option2Edt, Option3Edt;
+    private String Option1Edt, Option2Edt, Option3Edt;
     private PollRVModal pollRVModal;
-    private String pollID, votes1, votes2, votes3;
-    private Button voteBtn;
-    private CheckBox checkBox, checkBox2, checkBox3;
-    private Integer checkCounter, checkCounter2, checkCounter3,Counter,Counter2,Counter3;
+    private String pollID;
+    private Integer  votes1, votes2, votes3;
+    private Button voteBtn1,voteBtn2,voteBtn3;
+
+
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private ProgressBar loadingPB;
@@ -39,23 +40,17 @@ public class VotingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voting);
         // initializing all our variables.
-        PollNameEdt = findViewById(R.id.idEdtPollName);
-        PollDescEdt = findViewById(R.id.idEdtPollDescription);
-        PollImgEdt = findViewById(R.id.idEdtPollImageLink);
-        voteBtn = findViewById(R.id.idBtnUpdate);
-        checkBox = findViewById(R.id.checkBox);
-        checkBox2 = findViewById(R.id.checkBox2);
-        checkBox3 = findViewById(R.id.checkBox3);
+        votes1=0;
+        votes2=0;
+        votes3=0;
+        voteBtn1 = findViewById(R.id.idBtnVote1);
+        voteBtn2 = findViewById(R.id.idBtnVote2);
+        voteBtn3 = findViewById(R.id.idBtnVote3);
         loadingPB = findViewById(R.id.idPBLoading);
-        Option1Edt = findViewById(R.id.idEdtOption1);
-        Option2Edt = findViewById(R.id.idEdtVoteOption2);
-        Option3Edt = findViewById(R.id.idEdtOption3);
-        votes1 = "0";
-        votes2 = "0";
-        votes3 = "0";
-        checkCounter = 0;
-        checkCounter2 = 0;
-        checkCounter3 = 0;
+
+
+
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         // on below line we are getting our modal class on which we have passed.
         pollRVModal = getIntent().getParcelableExtra("poll");
@@ -64,73 +59,26 @@ public class VotingActivity extends AppCompatActivity {
 
         if (pollRVModal != null) {
             // on below line we are setting data to our edit text from our modal class.
-
-            checkBox.setText(pollRVModal.getOption1());
-            checkBox2.setText(pollRVModal.getOption2());
-            checkBox3.setText(pollRVModal.getOption3());
+            voteBtn1.setText(pollRVModal.getOption1());
+            voteBtn2.setText(pollRVModal.getOption2());
+            voteBtn3.setText(pollRVModal.getOption3());
             pollID = pollRVModal.getPollId();
         }
         databaseReference = firebaseDatabase.getReference("polls").child(pollID);
-        // adding click listener for our vote  button.
-        voteBtn.setOnClickListener(new View.OnClickListener() {
+
+        // adding click listener for our vote buttons.
+
+        voteBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingPB.setVisibility(View.VISIBLE);
-               // String pollName = PollNameEdt.getText().toString();
-               // String pollDesc = PollDescEdt.getText().toString();
-               // String pollImg = PollImgEdt.getText().toString();
-              //  String option1= voteOption1Edt.getText().toString();
-              //  String option2= voteOption2Edt.getText().toString();
-              //  String option3= voteOption3Edt.getText().toString()
-                // getting data from our checkbox .
 
-                checkBox.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (checkBox.isChecked()) {
-                            checkCounter++;
-                            Counter=checkCounter;
-                            votes1=Counter.toString();
-                            System.out.println(votes1);
-                        }
-                    }
-                });
-
-                checkBox2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (checkBox2.isChecked()) {
-                            checkCounter2++;
-                           Counter2=checkCounter2;
-                            votes2=Integer.toString(Counter2);
-                        }
-                    }
-                });
-
-                checkBox3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (checkBox3.isChecked()) {
-                            checkCounter3++;
-                            Counter3=checkCounter3;
-                            votes3=Integer.toString(Counter3);
-                        }
-                    }
-                });
-
+                votes1++;
                 // on below line we are creating a map for
                 // passing a data using key and value pair.
                 Map<String, Object> map = new HashMap<>();
-               // map.put("pollName", pollName);
-              // map.put("pollDescription", pollDesc);
-              // map.put("pollImg", pollImg);
-             //   map.put("option1", option1);
-              //  map.put("option2", option2);
-             //   map.put("option3", option3);
+
                 map.put("votes1", votes1);
-                map.put("votes3", votes3);
-                map.put("votes2", votes2);
-                map.put("pollId", pollID);
 
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -153,7 +101,74 @@ public class VotingActivity extends AppCompatActivity {
                 });
             }
 
-            ;
+        });
+        voteBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadingPB.setVisibility(View.VISIBLE);
+
+                votes2++;
+                System.out.println(votes2);
+                // on below line we are creating a map for
+                // passing a data using key and value pair.
+                Map<String, Object> map = new HashMap<>();
+
+                map.put("votes2", votes2);
+
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        // making progress bar visibility as gone.
+                        loadingPB.setVisibility(View.GONE);
+                        // adding a map to our database.
+                        databaseReference.updateChildren(map);
+                        // on below line we are displaying a toast message.
+                        Toast.makeText(VotingActivity.this, "Votes Added..", Toast.LENGTH_SHORT).show();
+                        // opening a new activity after updating our votes.
+                        startActivity(new Intent(VotingActivity.this, MainActivity.class));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // displaying a failure message on toast.
+                        Toast.makeText(VotingActivity.this, "Fail to vote..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        });
+        voteBtn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadingPB.setVisibility(View.VISIBLE);
+                votes3++;
+                // on below line we are creating a map for
+                // passing a data using key and value pair.
+                Map<String, Object> map = new HashMap<>();
+
+                map.put("votes3", votes3);
+
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        // making progress bar visibility as gone.
+                        loadingPB.setVisibility(View.GONE);
+                        // adding a map to our database.
+                        databaseReference.updateChildren(map);
+                        // on below line we are displaying a toast message.
+                        Toast.makeText(VotingActivity.this, "Votes Added..", Toast.LENGTH_SHORT).show();
+                        // opening a new activity after updating our votes.
+                        startActivity(new Intent(VotingActivity.this, MainActivity.class));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // displaying a failure message on toast.
+                        Toast.makeText(VotingActivity.this, "Fail to vote..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
         });
     }
 }

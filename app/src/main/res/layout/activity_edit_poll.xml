@@ -178,7 +178,7 @@
 
                 <!--button for updating a new Poll-->
                 <Button
-                    android:id="@+id/idBtnUpdate"
+                    android:id="@+id/idBtnVote"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"

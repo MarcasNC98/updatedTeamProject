@@ -12,9 +12,9 @@ public class PollRVModal implements Parcelable {
     private String option1;
     private String option2;
     private String option3;
-    private String votes1;
-    private String votes2;
-    private String votes3;
+    private Integer votes1;
+    private Integer votes2;
+    private Integer votes3;
 
     // creating an empty constructor which is required to use firebase.
     public PollRVModal() {
@@ -32,9 +32,9 @@ public class PollRVModal implements Parcelable {
         option1 = in.readString();
         option2 = in.readString();
         option3 = in.readString();
-        votes1=in.readString();
-        votes2=in.readString();
-        votes3=in.readString();
+        votes1=0;
+        votes2=0;
+        votes3=0;
     }
 
     public static final Creator<PollRVModal> CREATOR = new Creator<PollRVModal>() {
@@ -77,27 +77,27 @@ public class PollRVModal implements Parcelable {
         this.pollDescription = pollDescription;
     }
 
-    public String getVotes1() {
+    public Integer getVotes1() {
         return votes1;
     }
 
-    public void setVotes1(String votes1) {
+    public void setVotes1(Integer votes1) {
         this.votes1 = votes1;
     }
 
-    public String getVotes2() {
+    public Integer getVotes2() {
         return votes2;
     }
 
-    public void setVotes2(String votes2) {
+    public void setVotes2(Integer votes2) {
         this.votes2 = votes2;
     }
 
-    public String getVotes3() {
+    public Integer getVotes3() {
         return votes3;
     }
 
-    public void setVotes3(String votes3) {
+    public void setVotes3(Integer votes3) {
         this.votes3 = votes3;
     }
 
@@ -117,7 +117,7 @@ public class PollRVModal implements Parcelable {
         this.pollId = pollId;
     }
 
-    public PollRVModal(String pollId, String pollName, String pollDescription, String pollImg, String option1, String option2, String option3,String votes1,String votes2,String votes3) {
+    public PollRVModal(String pollId, String pollName, String pollDescription, String pollImg, String option1, String option2, String option3,Integer votes1,Integer votes2,Integer votes3) {
         this.pollName = pollName;
         this.pollId = pollId;
         this.pollDescription = pollDescription;

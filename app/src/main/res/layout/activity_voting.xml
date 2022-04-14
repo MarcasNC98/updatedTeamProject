@@ -17,45 +17,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-
-                android:textSize="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:paddingLeft="80dp"
-                android:text="CheckBox"
-
-                />
-
-            <CheckBox
-                android:id="@+id/checkBox2"
-                android:textSize="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:paddingLeft="80dp"
-                android:text="CheckBox" />
-
-            <CheckBox
-                android:id="@+id/checkBox3"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-                android:textSize="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:paddingLeft="80dp"
-                android:text="CheckBox" />
-
             <Button
-                android:id="@+id/idBtnUpdate"
+                android:id="@+id/idBtnVote1"
                 android:layout_width="match_parent"
                 android:layout_height="62dp"
                 android:layout_marginStart="10dp"
@@ -63,7 +26,31 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_back"
-                android:text="Vote"
+                android:textAllCaps="false"
+
+
+                />
+
+            <Button
+                android:id="@+id/idBtnVote2"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_back"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/idBtnVote3"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_back"
                 android:textAllCaps="false" />
         </LinearLayout>
 
