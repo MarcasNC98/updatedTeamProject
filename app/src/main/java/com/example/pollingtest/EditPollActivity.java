@@ -31,7 +31,7 @@ public class EditPollActivity extends AppCompatActivity {
     private PollRVModal pollRVModal;
     private ProgressBar loadingPB;
     // creating a string for our Poll id.
-    private String pollID;
+    private String pollID,votes1,votes2,votes3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,9 @@ public class EditPollActivity extends AppCompatActivity {
         voteOption2Edt= findViewById(R.id.idEdtVoteOption2);
         voteOption3Edt= findViewById(R.id.idEdtVoteOption3);
         loadingPB = findViewById(R.id.idPBLoading);
+        votes1="0";
+        votes2="0";
+        votes3="0";
         firebaseDatabase = FirebaseDatabase.getInstance();
         // on below line we are getting our modal class on which we have passed.
         pollRVModal = getIntent().getParcelableExtra("poll");
@@ -64,7 +67,7 @@ public class EditPollActivity extends AppCompatActivity {
         // on below line we are initialing our database reference and we are adding a child as our Poll id.
         databaseReference = firebaseDatabase.getReference("polls").child(pollID);
 
-        // on below line we are adding click listener for our add Poll button.
+        // on below line we are adding click listener for our update Poll button.
         updatePollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +87,11 @@ public class EditPollActivity extends AppCompatActivity {
                 map.put("pollDescription", pollDesc);
                 map.put("pollImg", pollImg);
                 map.put("option1", option1);
+                map.put("option2", option2);
+                map.put("option3", option3);
+                map.put("votes1", votes1);
+                map.put("votes3", votes3);
+                map.put("votes2", votes2);
                 map.put("option2", option2);
                 map.put("option3", option3);
                 map.put("pollId", pollID);

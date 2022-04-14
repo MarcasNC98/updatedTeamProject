@@ -73,7 +73,7 @@
 
         <!--button for viewing Poll details-->
         <Button
-            android:id="@+id/idBtnVIewDetails"
+            android:id="@+id/idBtnVoting"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
@@ -81,7 +81,7 @@
             android:layout_marginEnd="6dp"
             android:layout_marginBottom="6dp"
             android:layout_weight="1"
-            android:text="View Details"
+            android:text="Vote"
             android:textAllCaps="false" />
 
     </LinearLayout>

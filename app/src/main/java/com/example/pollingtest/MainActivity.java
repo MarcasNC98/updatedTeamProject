@@ -1,7 +1,6 @@
 package com.example.pollingtest;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements PollRVAdapter.Pol
         pollNameTV.setText(modal.getPollName());
         pollDescTV.setText(modal.getPollDescription());
         Picasso.get().load(modal.getPollImg()).into(pollIV);
-        Button viewBtn = layout.findViewById(R.id.idBtnVIewDetails);
+        Button voteBtn = layout.findViewById(R.id.idBtnVoting);
         Button editBtn = layout.findViewById(R.id.idBtnEditPoll);
 
         // adding on click listener for our edit button.
@@ -195,7 +194,18 @@ public class MainActivity extends AppCompatActivity implements PollRVAdapter.Pol
                 i.putExtra("poll", modal);
                 startActivity(i);
             }
-        });
 
+        });
+        // adding on click listener for our vote button.
+        voteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // on below line we are opening our votingActivity on below line.
+                Intent x = new Intent(MainActivity.this, VotingActivity.class);
+                // on below line we are passing our Poll modal
+                x.putExtra("poll", modal);
+                startActivity(x);
+            }
+        });
     }
 }

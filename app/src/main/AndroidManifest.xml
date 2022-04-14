@@ -17,6 +17,9 @@
             android:name=".EditPollActivity"
             android:label="Edit Poll" />
         <activity
+            android:name=".VotingActivity"
+            android:label="Vote" />
+        <activity
             android:name=".AddPollActivity"
             android:label="Add Poll" />
         <activity

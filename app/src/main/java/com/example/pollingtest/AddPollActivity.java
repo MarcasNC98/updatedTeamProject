@@ -24,9 +24,9 @@ public class AddPollActivity extends AppCompatActivity {
     private Button addPollBtn;
     private TextInputEditText pollNameEdt, pollDescEdt, pollImgEdt,voteOption1Edt,voteOption2Edt,voteOption3Edt;
     private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference,databaseRef2;
     private ProgressBar loadingPB;
-    private String pollID;
+    private String pollID,votes1,votes2,votes3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,9 @@ public class AddPollActivity extends AppCompatActivity {
         voteOption2Edt= findViewById(R.id.idEdtVoteOption2);
         voteOption3Edt= findViewById(R.id.idEdtVoteOption3);
         loadingPB = findViewById(R.id.idPBLoading);
+        votes1="0";
+        votes2="0";
+        votes3="0";
         firebaseDatabase = FirebaseDatabase.getInstance();
         // on below line creating our database reference.
         databaseReference = firebaseDatabase.getReference("polls");
@@ -61,14 +64,17 @@ public class AddPollActivity extends AppCompatActivity {
                 pollID = pollName;
 
                 // on below line we are passing all data to our modal class.
-                PollRVModal pollRVModal = new PollRVModal(pollID, pollName, pollDesc, pollImg,option1,option2,option3);
+                PollRVModal pollRVModal = new PollRVModal(pollID, pollName, pollDesc, pollImg,option1,option2,option3,votes1,votes2,votes3);
                 // on below line we are calling a add value event
                 // to pass data to firebase database.
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         // on below line we are setting data in our firebase database.
-                        databaseReference.child(pollID).setValue(pollRVModal);
+                      // databaseReference.child(pollID).setValue(pollRVModal);
+                       databaseReference.child(pollID).setValue(pollRVModal);
+
+
                         // displaying a toast message.
                         Toast.makeText(AddPollActivity.this, "poll Added..", Toast.LENGTH_SHORT).show();
                         // starting a main activity.
@@ -80,7 +86,6 @@ public class AddPollActivity extends AppCompatActivity {
                         // displaying a failure message on below line.
                         Toast.makeText(AddPollActivity.this, "Fail to add poll..", Toast.LENGTH_SHORT).show();
                     }
-
                 });
             }
         });
