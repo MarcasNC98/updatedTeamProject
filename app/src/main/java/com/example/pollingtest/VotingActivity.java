@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
@@ -26,12 +27,12 @@ public class VotingActivity extends AppCompatActivity {
     private String Option1Edt, Option2Edt, Option3Edt;
     private PollRVModal pollRVModal;
     private String pollID;
-    private Integer  votes1, votes2, votes3;
-    private Button voteBtn1,voteBtn2,voteBtn3;
+    private Integer votes1, votes2, votes3;
+    private Button voteBtn1, voteBtn2, voteBtn3;
 
 
     private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, DatabaseRef;
     private ProgressBar loadingPB;
 
 
@@ -40,15 +41,13 @@ public class VotingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voting);
         // initializing all our variables.
-        votes1=0;
-        votes2=0;
-        votes3=0;
+        votes1 = 0;
+        votes2 = 0;
+        votes3 = 0;
         voteBtn1 = findViewById(R.id.idBtnVote1);
         voteBtn2 = findViewById(R.id.idBtnVote2);
         voteBtn3 = findViewById(R.id.idBtnVote3);
         loadingPB = findViewById(R.id.idPBLoading);
-
-
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -65,28 +64,28 @@ public class VotingActivity extends AppCompatActivity {
             pollID = pollRVModal.getPollId();
         }
         databaseReference = firebaseDatabase.getReference("polls").child(pollID);
-
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
         // adding click listener for our vote buttons.
 
         voteBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingPB.setVisibility(View.VISIBLE);
-
-                votes1++;
+                databaseReference.child("votes1").setValue(ServerValue.increment(1));
+                //votes1++;
                 // on below line we are creating a map for
                 // passing a data using key and value pair.
-                Map<String, Object> map = new HashMap<>();
+                //Map<String, Object> map = new HashMap<>();
 
-                map.put("votes1", votes1);
+                // map.put("votes1", votes1);
 
-                databaseReference.addValueEventListener(new ValueEventListener() {
+                databaseRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         // making progress bar visibility as gone.
                         loadingPB.setVisibility(View.GONE);
                         // adding a map to our database.
-                        databaseReference.updateChildren(map);
+                        // databaseReference.updateChildren(map);
                         // on below line we are displaying a toast message.
                         Toast.makeText(VotingActivity.this, "Votes Added..", Toast.LENGTH_SHORT).show();
                         // opening a new activity after updating our votes.
@@ -106,22 +105,13 @@ public class VotingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingPB.setVisibility(View.VISIBLE);
+                databaseReference.child("votes2").setValue(ServerValue.increment(1));
 
-                votes2++;
-                System.out.println(votes2);
-                // on below line we are creating a map for
-                // passing a data using key and value pair.
-                Map<String, Object> map = new HashMap<>();
-
-                map.put("votes2", votes2);
-
-                databaseReference.addValueEventListener(new ValueEventListener() {
+                databaseRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         // making progress bar visibility as gone.
                         loadingPB.setVisibility(View.GONE);
-                        // adding a map to our database.
-                        databaseReference.updateChildren(map);
                         // on below line we are displaying a toast message.
                         Toast.makeText(VotingActivity.this, "Votes Added..", Toast.LENGTH_SHORT).show();
                         // opening a new activity after updating our votes.
@@ -141,20 +131,12 @@ public class VotingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingPB.setVisibility(View.VISIBLE);
-                votes3++;
-                // on below line we are creating a map for
-                // passing a data using key and value pair.
-                Map<String, Object> map = new HashMap<>();
-
-                map.put("votes3", votes3);
-
-                databaseReference.addValueEventListener(new ValueEventListener() {
+                databaseReference.child("votes3").setValue(ServerValue.increment(1));
+                databaseRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         // making progress bar visibility as gone.
                         loadingPB.setVisibility(View.GONE);
-                        // adding a map to our database.
-                        databaseReference.updateChildren(map);
                         // on below line we are displaying a toast message.
                         Toast.makeText(VotingActivity.this, "Votes Added..", Toast.LENGTH_SHORT).show();
                         // opening a new activity after updating our votes.
@@ -170,5 +152,8 @@ public class VotingActivity extends AppCompatActivity {
             }
 
         });
+
+
+
     }
 }
