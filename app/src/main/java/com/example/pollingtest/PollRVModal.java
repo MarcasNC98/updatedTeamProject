@@ -32,9 +32,9 @@ public class PollRVModal implements Parcelable {
         option1 = in.readString();
         option2 = in.readString();
         option3 = in.readString();
-        votes1=0;
-        votes2=0;
-        votes3=0;
+        votes1 = 0;
+        votes2 = 0;
+        votes3 = 0;
     }
 
     public static final Creator<PollRVModal> CREATOR = new Creator<PollRVModal>() {
@@ -49,17 +49,29 @@ public class PollRVModal implements Parcelable {
         }
     };
 
-    public String getOption1() { return option1; }
+    public String getOption1() {
+        return option1;
+    }
 
-    public void setOption1(String option1) { this.option1 = option1; }
+    public void setOption1(String option1) {
+        this.option1 = option1;
+    }
 
-    public String getOption2() { return option2; }
+    public String getOption2() {
+        return option2;
+    }
 
-    public void setOption2(String option2) { this.option2 = option2; }
+    public void setOption2(String option2) {
+        this.option2 = option2;
+    }
 
-    public String getOption3() { return option3;}
+    public String getOption3() {
+        return option3;
+    }
 
-    public void setOption3(String option3) {this.option3 = option3; }
+    public void setOption3(String option3) {
+        this.option3 = option3;
+    }
 
     public String getPollName() {
         return pollName;
@@ -117,7 +129,7 @@ public class PollRVModal implements Parcelable {
         this.pollId = pollId;
     }
 
-    public PollRVModal(String pollId, String pollName, String pollDescription, String pollImg, String option1, String option2, String option3,Integer votes1,Integer votes2,Integer votes3) {
+    public PollRVModal(String pollId, String pollName, String pollDescription, String pollImg, String option1, String option2, String option3, Integer votes1, Integer votes2, Integer votes3) {
         this.pollName = pollName;
         this.pollId = pollId;
         this.pollDescription = pollDescription;
@@ -125,9 +137,9 @@ public class PollRVModal implements Parcelable {
         this.option2 = option2;
         this.option3 = option3;
         this.pollImg = pollImg;
-        this.votes1= votes1;
-        this.votes2= votes2;
-        this.votes3= votes3;
+        this.votes1 = votes1;
+        this.votes2 = votes2;
+        this.votes3 = votes3;
 
     }
 

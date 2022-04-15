@@ -17,6 +17,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/opt1"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:text="Option 1"
+                android:textColor="#FFFFFF" />
+
             <Button
                 android:id="@+id/idBtnVote1"
                 android:layout_width="match_parent"
@@ -26,10 +35,19 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_back"
+                android:text="@string/Vote"
                 android:textAllCaps="false"
+                android:textSize="24sp"
+                tools:ignore="DuplicateSpeakableTextCheck" />
 
-
-                />
+            <TextView
+                android:id="@+id/opt2"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:text="Option 2"
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/idBtnVote2"
@@ -40,7 +58,18 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_back"
-                android:textAllCaps="false" />
+                android:text="@string/Vote"
+                android:textAllCaps="false"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/opt3"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:text="Option 3"
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/idBtnVote3"
@@ -51,7 +80,9 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_back"
-                android:textAllCaps="false" />
+                android:text="@string/Vote"
+                android:textAllCaps="false"
+                android:textSize="24sp" />
         </LinearLayout>
 
         <!--progress bar for displaying a loading indicator-->

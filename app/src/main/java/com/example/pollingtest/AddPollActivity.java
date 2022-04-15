@@ -39,7 +39,7 @@ public class AddPollActivity extends AppCompatActivity {
         pollDescEdt = findViewById(R.id.idEdtPollDescription);
         pollImgEdt = findViewById(R.id.idEdtPollImageLink);
         Option1Edt= findViewById(R.id.idEdtOption1);
-        Option2Edt= findViewById(R.id.idEdtVoteOption2);
+        Option2Edt= findViewById(R.id.idEdtOption2);
         Option3Edt= findViewById(R.id.idEdtOption3);
         loadingPB = findViewById(R.id.idPBLoading);
         votes1=0;
@@ -60,6 +60,7 @@ public class AddPollActivity extends AppCompatActivity {
                 String pollDesc = pollDescEdt.getText().toString();
                 String pollImg = pollImgEdt.getText().toString();
                 String option1= Option1Edt.getText().toString();
+
                 String option2= Option2Edt.getText().toString();
                 String option3= Option3Edt.getText().toString();
                 pollID = pollName;

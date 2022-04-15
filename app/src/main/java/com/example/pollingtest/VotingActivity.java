@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ public class VotingActivity extends AppCompatActivity {
 
     private String Option1Edt, Option2Edt, Option3Edt;
     private PollRVModal pollRVModal;
+    private TextView opt1,opt2,opt3;
     private String pollID;
     private Integer votes1, votes2, votes3;
     private Button voteBtn1, voteBtn2, voteBtn3;
@@ -47,6 +49,10 @@ public class VotingActivity extends AppCompatActivity {
         voteBtn1 = findViewById(R.id.idBtnVote1);
         voteBtn2 = findViewById(R.id.idBtnVote2);
         voteBtn3 = findViewById(R.id.idBtnVote3);
+        opt1= (TextView)findViewById(R.id.opt1);
+        System.out.println(opt1);
+        opt2= (TextView)findViewById(R.id.opt2);
+        opt3= (TextView)findViewById(R.id.opt3);
         loadingPB = findViewById(R.id.idPBLoading);
 
 
@@ -58,7 +64,11 @@ public class VotingActivity extends AppCompatActivity {
 
         if (pollRVModal != null) {
             // on below line we are setting data to our edit text from our modal class.
-            voteBtn1.setText(pollRVModal.getOption1());
+            String Choice1 = dataSnapshot.child(pollID).child("option1").getValue;
+            opt1.setText();
+
+            opt2.setText(pollRVModal.getOption2());
+            opt3.setText(pollRVModal.getOption3());
             voteBtn2.setText(pollRVModal.getOption2());
             voteBtn3.setText(pollRVModal.getOption3());
             pollID = pollRVModal.getPollId();
