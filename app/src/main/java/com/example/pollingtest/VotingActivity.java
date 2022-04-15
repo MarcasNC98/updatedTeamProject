@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +51,6 @@ public class VotingActivity extends AppCompatActivity {
         voteBtn2 = findViewById(R.id.idBtnVote2);
         voteBtn3 = findViewById(R.id.idBtnVote3);
         opt1= (TextView)findViewById(R.id.opt1);
-        System.out.println(opt1);
         opt2= (TextView)findViewById(R.id.opt2);
         opt3= (TextView)findViewById(R.id.opt3);
         loadingPB = findViewById(R.id.idPBLoading);
@@ -64,13 +64,9 @@ public class VotingActivity extends AppCompatActivity {
 
         if (pollRVModal != null) {
             // on below line we are setting data to our edit text from our modal class.
-            String Choice1 = dataSnapshot.child(pollID).child("option1").getValue;
-            opt1.setText();
-
+            opt1.setText(pollRVModal.getOption1());
             opt2.setText(pollRVModal.getOption2());
             opt3.setText(pollRVModal.getOption3());
-            voteBtn2.setText(pollRVModal.getOption2());
-            voteBtn3.setText(pollRVModal.getOption3());
             pollID = pollRVModal.getPollId();
         }
         databaseReference = firebaseDatabase.getReference("polls").child(pollID);
@@ -82,12 +78,6 @@ public class VotingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadingPB.setVisibility(View.VISIBLE);
                 databaseReference.child("votes1").setValue(ServerValue.increment(1));
-                //votes1++;
-                // on below line we are creating a map for
-                // passing a data using key and value pair.
-                //Map<String, Object> map = new HashMap<>();
-
-                // map.put("votes1", votes1);
 
                 databaseRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -95,7 +85,7 @@ public class VotingActivity extends AppCompatActivity {
                         // making progress bar visibility as gone.
                         loadingPB.setVisibility(View.GONE);
                         // adding a map to our database.
-                        // databaseReference.updateChildren(map);
+
                         // on below line we are displaying a toast message.
                         Toast.makeText(VotingActivity.this, "Votes Added..", Toast.LENGTH_SHORT).show();
                         // opening a new activity after updating our votes.

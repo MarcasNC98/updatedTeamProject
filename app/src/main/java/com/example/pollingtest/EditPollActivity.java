@@ -61,7 +61,6 @@ public class EditPollActivity extends AppCompatActivity {
             PollImgEdt.setText(pollRVModal.getPollImg());
             PollDescEdt.setText(pollRVModal.getPollDescription());
             Option1Edt.setText(pollRVModal.getOption1());
-            System.out.println(pollRVModal.getOption1());
             Option2Edt.setText(pollRVModal.getOption2());
             Option3Edt.setText(pollRVModal.getOption3());
             pollID = pollRVModal.getPollId();

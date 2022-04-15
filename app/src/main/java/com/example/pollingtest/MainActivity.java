@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements PollRVAdapter.Pol
         // and initialing them with their ids.
         TextView pollNameTV = layout.findViewById(R.id.idTVPollName);
         TextView pollDescTV = layout.findViewById(R.id.idTVPollDesc);
+
         ImageView pollIV = layout.findViewById(R.id.idIVPoll);
         // on below line we are setting data to different views on below line.
         pollNameTV.setText(modal.getPollName());

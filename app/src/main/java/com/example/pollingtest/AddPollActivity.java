@@ -60,7 +60,6 @@ public class AddPollActivity extends AppCompatActivity {
                 String pollDesc = pollDescEdt.getText().toString();
                 String pollImg = pollImgEdt.getText().toString();
                 String option1= Option1Edt.getText().toString();
-
                 String option2= Option2Edt.getText().toString();
                 String option3= Option3Edt.getText().toString();
                 pollID = pollName;

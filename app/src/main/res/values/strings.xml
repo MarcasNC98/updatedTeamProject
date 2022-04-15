@@ -7,5 +7,9 @@
     <string name="enter_poll_image_link">Enter poll Image Link</string>
     <string name="enter_poll_description">Enter poll Description</string>
     <string name="add_your_poll">Add Your poll</string>
-    <string name="Vote">Vote</string>
+    <string name="option_1">Option 1</string>
+    <string name="vote">Vote</string>
+    <string name="option_2">Option 2</string>
+    <string name="option_3">Option 3</string>
+
 </resources>

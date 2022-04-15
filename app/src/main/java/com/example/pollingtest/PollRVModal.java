@@ -28,10 +28,10 @@ public class PollRVModal implements Parcelable {
         pollName = in.readString();
         pollDescription = in.readString();
         pollImg = in.readString();
-        pollId = in.readString();
         option1 = in.readString();
         option2 = in.readString();
         option3 = in.readString();
+        pollId = in.readString();
         votes1 = 0;
         votes2 = 0;
         votes3 = 0;
@@ -49,9 +49,7 @@ public class PollRVModal implements Parcelable {
         }
     };
 
-    public String getOption1() {
-        return option1;
-    }
+    public String getOption1() { return option1; }
 
     public void setOption1(String option1) {
         this.option1 = option1;
@@ -153,6 +151,9 @@ public class PollRVModal implements Parcelable {
         parcel.writeString(pollName);
         parcel.writeString(pollDescription);
         parcel.writeString(pollImg);
+        parcel.writeString(option1);
+        parcel.writeString(option2);
+        parcel.writeString(option3);
         parcel.writeString(pollId);
     }
 }
