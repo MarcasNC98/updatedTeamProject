@@ -14,6 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirebaseCrudApp">
         <activity
+            android:name=".ChooseHouseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GroceryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditPollActivity"
             android:label="Edit Poll" />
         <activity
@@ -22,9 +31,6 @@
         <activity
             android:name=".AddPollActivity"
             android:label="Add Poll" />
-        <activity
-            android:name=".RegisterActivity"
-            android:label="Register" />
         <!--login activity is set as launcher activity-->
         <activity android:name=".LoginActivity"
             android:exported="true">
@@ -34,7 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".PollActivity" />
     </application>
 
 </manifest>

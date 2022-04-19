@@ -1,92 +1,164 @@
 package com.example.pollingtest;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    // creating variable for edit text, textview,
-    // button, progress bar and firebase auth.
-    private TextInputEditText userNameEdt, passwordEdt;
-    private FirebaseAuth mAuth;
-    private ProgressBar loadingPB;
+//    GoogleSignInOptions gso;
+//    GoogleSignInClient gsc;
+
+
+    Button googleLoginBtn;
+    //EditText class called emailAddress
+    private EditText emailAddress;
+    //EditText class called password
+    private EditText password;
+    //Textview class called email_signUp
+    private TextView email_signUp;
+    //Button class called buttonLogin
+    private Button buttonLogin;
+
+
+    //FirebaseAuth class called newAuth
+    private FirebaseAuth newAuth;
+    //ProgressDialog class called newDialog
+    private ProgressDialog newDialog;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // initializing all our variables.
-        userNameEdt = findViewById(R.id.idEdtUserName);
-        passwordEdt = findViewById(R.id.idEdtPassword);
-        Button loginBtn = findViewById(R.id.idBtnLogin);
-        TextView newUserTV = findViewById(R.id.idTVNewUser);
-        mAuth = FirebaseAuth.getInstance();
-        loadingPB = findViewById(R.id.idPBLoading);
-        // adding click listener for our new user tv.
-        newUserTV.setOnClickListener(v -> {
-            // on below line opening a login activity.
-            Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(i);
-        });
 
-        // adding on click listener for our login button.
-        loginBtn.setOnClickListener(v -> {
-            // hiding our progress bar.
-            loadingPB.setVisibility(View.VISIBLE);
-            // getting data from our edit text on below line.
-            String email = Objects.requireNonNull(userNameEdt.getText()).toString();
-            String password = Objects.requireNonNull(passwordEdt.getText()).toString();
-            // on below line validating the text input.
-            if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
-                Toast.makeText(LoginActivity.this, "Please enter your credentials..", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            // on below line we are calling a sign in method and passing email and password to it.
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-                // on below line we are checking if the task is success or not.
-                if (task.isSuccessful()) {
-                    // on below line we are hiding our progress bar.
-                    loadingPB.setVisibility(View.GONE);
-                    Toast.makeText(LoginActivity.this, "Login Successful..", Toast.LENGTH_SHORT).show();
-                    // on below line we are opening our main activity.
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-                } else {
-                    // hiding our progress bar and displaying a toast message.
-                    loadingPB.setVisibility(View.GONE);
-                    Toast.makeText(LoginActivity.this, "Please enter valid user credentials..", Toast.LENGTH_SHORT).show();
+//        googleLoginBtn = findViewById(R.id.googleLoginBtn);
+//
+//        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+//        gsc = GoogleSignIn.getClient(this, gso);
+        //Returns an instance of FirebaseAuth and ties it to newAuth
+        newAuth = FirebaseAuth.getInstance();
+        //Assigns the input field for an email address with the ID 'login_email' from 'activity_main.xml' to emailAddress
+        emailAddress = findViewById(R.id.login_email);
+        //Assigns the input field for a password with the ID 'login_password' from 'activity_main.xml' to password
+        password = findViewById(R.id.login_password);
+        //Assigns the text field for redirecting a user to the registration screen with the ID 'register' from 'activity_main.xml' to email_signUp
+        email_signUp = findViewById(R.id.register);
+        //Assigns the button for logging in with the ID 'loginBtn' from 'activity_main.xml' to buttonLogin
+        buttonLogin = findViewById(R.id.loginBtn);
+
+
+        //Creates and sets a new instance of ProgressDialog and assigns it to newDialog, this will display a progress messaging letting the user know the program is working on logging in
+        newDialog = new ProgressDialog(this);
+
+        //Sets an onClickListener that will look for a click on the buttonLogin button
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //When clicked, a string called newEmail and newPassword will be created that will get the text in the emailAddress and password fields, convert them to strings and will use trim to remove any spaces at the beginning or end of the inputted data
+                String newEmail = emailAddress.getText().toString().trim();
+                String newPassword = password.getText().toString().trim();
+
+                //If the newEmail field is empty, an error will be shown in the emailAddress field stating that the field cannot be blank
+                if (TextUtils.isEmpty(newEmail)) {
+                    emailAddress.setError("Cannot be blank");
+                    return;
                 }
-            });
-        });
-    }
+                //The same as above, an error will be shown if the password field is blank
+                if (TextUtils.isEmpty(newPassword)) {
+                    password.setError("Cannot be blank");
+                    return;
+                }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // in on start method checking if
-        // the user is already sign in.
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            // if the user is not null then we are
-            // opening a main activity on below line.
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(i);
-            this.finish();
-        }
+                //A dialog message that will appear on screen when a user clicks the 'login' button that informs the user that the page is loading
+                newDialog.setMessage("Loading...");
+                newDialog.show();
+
+                //Firebase Authenticator newAuth that will sign in the user using the newEmail and newPassword fields and will listen for this being completed
+                newAuth.signInWithEmailAndPassword(newEmail, newPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //If the task is successful, a new activity is started that will get the HomePage class and redirect the user to the apps home page
+                        if (task.isSuccessful()) {
+                            startActivity(new Intent(getApplicationContext(), com.example.pollingtest.GroceryActivity.class));
+                            //A toast dialog message will pop up on the screen informing the user that they have been logged in successfully
+                            Toast.makeText(getApplicationContext(), "Logged In", Toast.LENGTH_SHORT).show();
+
+                            //The newDialog loading message is dismissed
+                            newDialog.dismiss();
+                        } else {
+                            //if the task is unsuccessful for any reason, a toast message will pop up on screen informing the user that their login attempt failed
+                            Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
+
+                            //Again, the newDialog loading message is dismissed
+                            newDialog.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+
+        //Sets an onClickListener that will look for a click on the email_signUp text field
+        email_signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //When clicked, an activity will start that will get the RegistrationPage java class and the user will be redirected to the registration screen where they can create an account
+                startActivity(new Intent(getApplicationContext(), com.example.pollingtest.RegistrationActivity.class));
+            }
+        });
+
+//        googleLoginBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                signIn();
+//            }
+//        });
+//
+//
+//
+//    }
+
+//    void signIn(){
+//        Intent signInIntent = gsc.getSignInIntent();
+//        startActivityForResult(signInIntent,1000);
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == 1000){
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//
+//            try {
+//                task.getResult(ApiException.class);
+//                navigateHomePage();
+//            } catch (ApiException e) {
+//                Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//
+//    }
+//
+//    void navigateHomePage(){
+//        finish();
+//        startActivity(new Intent(getApplicationContext(),HomePage.class));
+//    }
+
+
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,17 +11,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class VotingActivity extends AppCompatActivity {
 
@@ -89,7 +83,7 @@ public class VotingActivity extends AppCompatActivity {
                         // on below line we are displaying a toast message.
                         Toast.makeText(VotingActivity.this, "Votes Added..", Toast.LENGTH_SHORT).show();
                         // opening a new activity after updating our votes.
-                        startActivity(new Intent(VotingActivity.this, MainActivity.class));
+                        startActivity(new Intent(VotingActivity.this, PollActivity.class));
                     }
 
                     @Override
@@ -115,7 +109,7 @@ public class VotingActivity extends AppCompatActivity {
                         // on below line we are displaying a toast message.
                         Toast.makeText(VotingActivity.this, "Votes Added..", Toast.LENGTH_SHORT).show();
                         // opening a new activity after updating our votes.
-                        startActivity(new Intent(VotingActivity.this, MainActivity.class));
+                        startActivity(new Intent(VotingActivity.this, PollActivity.class));
                     }
 
                     @Override
@@ -140,7 +134,7 @@ public class VotingActivity extends AppCompatActivity {
                         // on below line we are displaying a toast message.
                         Toast.makeText(VotingActivity.this, "Votes Added..", Toast.LENGTH_SHORT).show();
                         // opening a new activity after updating our votes.
-                        startActivity(new Intent(VotingActivity.this, MainActivity.class));
+                        startActivity(new Intent(VotingActivity.this, PollActivity.class));
                     }
 
                     @Override

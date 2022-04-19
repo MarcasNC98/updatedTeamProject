@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,15 +26,17 @@ public class EditPollActivity extends AppCompatActivity {
 
     // creating variables for our edit text, firebase database,
     // database reference, Poll rv modal,progress bar.
-    private TextInputEditText PollNameEdt, PollDescEdt, PollImgEdt,Option1Edt,Option2Edt,Option3Edt;
-    private Button updatePollBtn,deletePollBtn;
+    private TextInputEditText PollNameEdt, PollDescEdt, PollImgEdt, Option1Edt, Option2Edt, Option3Edt;
+    private Button updatePollBtn, deletePollBtn;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private String homeID, retrieveID, userID;
+    private FirebaseAuth mAuth;
     private PollRVModal pollRVModal;
     private ProgressBar loadingPB;
     // creating a string for our Poll id.
     private String pollID;
-    private Integer votes1,votes2,votes3;
+    private Integer votes1, votes2, votes3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +48,23 @@ public class EditPollActivity extends AppCompatActivity {
         PollNameEdt = findViewById(R.id.idEdtPollName);
         PollDescEdt = findViewById(R.id.idEdtPollDescription);
         PollImgEdt = findViewById(R.id.idEdtPollImageLink);
-        Option1Edt= findViewById(R.id.idEdtOption1);
-        Option2Edt= findViewById(R.id.idEdtVoteOption2);
-        Option3Edt= findViewById(R.id.idEdtOption3);
+        Option1Edt = findViewById(R.id.idEdtOption1);
+        Option2Edt = findViewById(R.id.idEdtVoteOption2);
+        Option3Edt = findViewById(R.id.idEdtOption3);
         loadingPB = findViewById(R.id.idPBLoading);
-        votes1=0;
-        votes2=0;
-        votes3=0;
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        // on below line we are getting our modal class on which we have passed.
-        pollRVModal = getIntent().getParcelableExtra("poll");
+        votes1 = 0;
+        votes2 = 0;
+        votes3 = 0;
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser newUser = mAuth.getCurrentUser();
+
+
+        //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
+        String uId = newUser.getUid();
+        userID = uId;
+        firebaseDatabase = FirebaseDatabase.getInstance("https://polling-3351e-default-rtdb.europe-west1.firebasedatabase.app/");
+        // on below line creating our database reference.
+        databaseReference = firebaseDatabase.getReference();
 
         if (pollRVModal != null) {
             // on below line we are setting data to our edit text from our modal class.
@@ -65,59 +76,12 @@ public class EditPollActivity extends AppCompatActivity {
             Option3Edt.setText(pollRVModal.getOption3());
             pollID = pollRVModal.getPollId();
         }
-        // on below line we are initialing our database reference and we are adding a child as our Poll id.
-        databaseReference = firebaseDatabase.getReference("polls").child(pollID);
-
+        getData();
         // on below line we are adding click listener for our update Poll button.
         updatePollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // on below line we are making our progress bar as visible.
-                loadingPB.setVisibility(View.VISIBLE);
-                // on below line we are getting data from our edit text.
-                String pollName = PollNameEdt.getText().toString();
-                String pollDesc = PollDescEdt.getText().toString();
-                String pollImg = PollImgEdt.getText().toString();
-                String option1= Option1Edt.getText().toString();
-                String option2= Option2Edt.getText().toString();
-                String option3= Option3Edt.getText().toString();
-                // on below line we are creating a map for
-                // passing a data using key and value pair.
-                Map<String, Object> map = new HashMap<>();
-                map.put("pollName", pollName);
-                map.put("pollDescription", pollDesc);
-                map.put("pollImg", pollImg);
-                map.put("option1", option1);
-                map.put("option2", option2);
-                map.put("option3", option3);
-                map.put("votes1", votes1);
-                map.put("votes3", votes3);
-                map.put("votes2", votes2);
-                map.put("option2", option2);
-                map.put("option3", option3);
-                map.put("pollId", pollID);
-
-                // on below line we are calling a database reference on
-                // add value event listener and on data change method
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        // making progress bar visibility as gone.
-                        loadingPB.setVisibility(View.GONE);
-                        // adding a map to our database.
-                        databaseReference.updateChildren(map);
-                        // on below line we are displaying a toast message.
-                        Toast.makeText(EditPollActivity.this, "Poll Updated..", Toast.LENGTH_SHORT).show();
-                        // opening a new activity after updating our coarse.
-                        startActivity(new Intent(EditPollActivity.this, MainActivity.class));
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // displaying a failure message on toast.
-                        Toast.makeText(EditPollActivity.this, "Fail to update Poll..", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                updatePoll();
             }
         });
 
@@ -129,15 +93,84 @@ public class EditPollActivity extends AppCompatActivity {
                 deletePoll();
             }
         });
-
     }
 
     private void deletePoll() {
         // on below line calling a method to delete the Poll.
-        databaseReference.removeValue();
+        databaseReference.child("Homes").child(retrieveID).child("polls").child(pollID).removeValue();
         // displaying a toast message on below line.
         Toast.makeText(this, "Poll Deleted..", Toast.LENGTH_SHORT).show();
         // opening a main activity on below line.
-        startActivity(new Intent(EditPollActivity.this, MainActivity.class));
+        startActivity(new Intent(EditPollActivity.this, PollActivity.class));
+    }
+
+    private void updatePoll() {
+
+        loadingPB.setVisibility(View.VISIBLE);
+        // on below line we are getting data from our edit text.
+        String pollName = PollNameEdt.getText().toString();
+        String pollDesc = PollDescEdt.getText().toString();
+        String pollImg = PollImgEdt.getText().toString();
+        String option1 = Option1Edt.getText().toString();
+        String option2 = Option2Edt.getText().toString();
+        String option3 = Option3Edt.getText().toString();
+        // on below line we are creating a map for
+        // passing a data using key and value pair.
+        Map<String, Object> map = new HashMap<>();
+        map.put("pollName", pollName);
+        map.put("pollDescription", pollDesc);
+        map.put("pollImg", pollImg);
+        map.put("option1", option1);
+        map.put("option2", option2);
+        map.put("option3", option3);
+        map.put("votes1", votes1);
+        map.put("votes3", votes3);
+        map.put("votes2", votes2);
+        map.put("option2", option2);
+        map.put("option3", option3);
+        map.put("pollId", pollID);
+
+        // on below line we are calling a database reference on
+        // add value event listener and on data change method
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // making progress bar visibility as gone.
+                loadingPB.setVisibility(View.GONE);
+                // adding a map to our database.
+                databaseReference.child("Homes").child(retrieveID).child("polls").child(pollID).updateChildren(map);
+                // on below line we are displaying a toast message.
+                Toast.makeText(EditPollActivity.this, "Poll Updated..", Toast.LENGTH_SHORT).show();
+                // opening a new activity after updating our coarse.
+                startActivity(new Intent(EditPollActivity.this, PollActivity.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // displaying a failure message on toast.
+                Toast.makeText(EditPollActivity.this, "Fail to update Poll..", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void getData() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
+
+                homeID = snapshot.child("NewUsers").child(userID).child("home").getValue(String.class);
+
+                // after getting the value we are setting
+                // our value to our text view in below line.
+                retrieveID = homeID;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

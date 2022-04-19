@@ -19,29 +19,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pollingtest.Data.Info;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements PollRVAdapter.PollClickInterface {
+public class PollActivity extends AppCompatActivity implements PollRVAdapter.PollClickInterface {
 
     // creating variables for fab, firebase database,
     // progress bar, list, adapter,firebase auth,
     // recycler view and relative layout.
     private FloatingActionButton addPollFAB;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+   private FirebaseDatabase firebaseDatabase;
+   private DatabaseReference databaseReference;
     private RecyclerView pollRV;
     private FirebaseAuth mAuth;
     private ProgressBar loadingPB;
+    private String homeID,retrieveID,userID;
     private ArrayList<PollRVModal> pollRVModalArrayList;
     private PollRVAdapter pollRVAdapter;
     private RelativeLayout homeRL;
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements PollRVAdapter.Pol
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_polls);
         // initializing all our variables.
         pollRV = findViewById(R.id.idRVPolls);
         homeRL = findViewById(R.id.idRLBSheet);
@@ -57,15 +61,24 @@ public class MainActivity extends AppCompatActivity implements PollRVAdapter.Pol
         addPollFAB = findViewById(R.id.idFABAddPoll);
         firebaseDatabase = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser newUser=mAuth.getCurrentUser();
+
+        //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
+        String uId=newUser.getUid();
+        userID=uId;
+
         pollRVModalArrayList = new ArrayList<>();
+
+        firebaseDatabase=FirebaseDatabase.getInstance("https://polling-3351e-default-rtdb.europe-west1.firebasedatabase.app/");
         // on below line we are getting database reference.
-        databaseReference = firebaseDatabase.getReference("polls");
+        databaseReference=firebaseDatabase.getReference();
+
         // on below line adding a click listener for our floating action button.
         addPollFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // opening a new activity for adding a Poll.
-                Intent i = new Intent(MainActivity.this, AddPollActivity.class);
+                Intent i = new Intent(PollActivity.this, AddPollActivity.class);
                 startActivity(i);
             }
         });
@@ -75,10 +88,60 @@ public class MainActivity extends AppCompatActivity implements PollRVAdapter.Pol
         pollRV.setLayoutManager(new LinearLayoutManager(this));
         // setting adapter to recycler view on below line.
         pollRV.setAdapter(pollRVAdapter);
+        getData();
         // on below line calling a method to fetch Polls from database.
-        getPolls();
-    }
+      //  getPolls();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                pollRVModalArrayList.clear();
+                for(DataSnapshot dataSnapshot:snapshot.child("Homes").getChildren()){
 
+                    //Info info = dataSnapshot.getValue(Info.class);
+                    //list.add(info);
+
+
+                    System.out.println("TESTpolls"+dataSnapshot.getValue());
+                    for(DataSnapshot secondSnapshot : snapshot.child("Homes").child(dataSnapshot.getKey()).child("polls").getChildren()){
+                        System.out.println("TEST111111111111111"+secondSnapshot.getValue());
+                        PollRVModal PollRVModal = secondSnapshot.getValue(PollRVModal.class);
+                        pollRVModalArrayList.add(PollRVModal);
+                        loadingPB.setVisibility(View.GONE);
+
+                    }
+                }
+                pollRVAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+    private void getData(){
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
+
+                homeID = snapshot.child("NewUsers").child(userID).child("home").getValue(String.class);
+
+                // after getting the value we are setting
+                // our value to our text view in below line.
+                retrieveID=homeID;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // calling on cancelled method when we receive
+                // any error or we are not able to get the data.
+                // Toast.makeText(MainActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void getPolls() {
         // on below line clearing our list.
         pollRVModalArrayList.clear();
@@ -142,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements PollRVAdapter.Pol
                 // on below line we are signing out our user.
                 mAuth.signOut();
                 // on below line we are opening our login activity.
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                Intent i = new Intent(PollActivity.this, LoginActivity.class);
                 startActivity(i);
                 this.finish();
                 return true;
@@ -190,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements PollRVAdapter.Pol
             @Override
             public void onClick(View v) {
                 // on below line we are opening our EditPollActivity on below line.
-                Intent i = new Intent(MainActivity.this, EditPollActivity.class);
+                Intent i = new Intent(PollActivity.this, EditPollActivity.class);
                 // on below line we are passing our Poll modal
                 i.putExtra("poll", modal);
                 startActivity(i);
@@ -202,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements PollRVAdapter.Pol
             @Override
             public void onClick(View v) {
                 // on below line we are opening our votingActivity on below line.
-                Intent x = new Intent(MainActivity.this, VotingActivity.class);
+                Intent x = new Intent(PollActivity.this, VotingActivity.class);
                 // on below line we are passing our Poll modal
                 x.putExtra("poll", modal);
                 startActivity(x);
