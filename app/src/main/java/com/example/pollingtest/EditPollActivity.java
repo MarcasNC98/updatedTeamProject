@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -66,54 +68,76 @@ public class EditPollActivity extends AppCompatActivity {
         // on below line creating our database reference.
         databaseReference = firebaseDatabase.getReference();
 
+        pollRVModal = getIntent().getParcelableExtra("poll");
+        // on below line we are initialing our database reference and we are adding a child as our Poll id.
+
+
         if (pollRVModal != null) {
             // on below line we are setting data to our edit text from our modal class.
-            PollNameEdt.setText(pollRVModal.getPollName());
-            PollImgEdt.setText(pollRVModal.getPollImg());
-            PollDescEdt.setText(pollRVModal.getPollDescription());
-            Option1Edt.setText(pollRVModal.getOption1());
-            Option2Edt.setText(pollRVModal.getOption2());
-            Option3Edt.setText(pollRVModal.getOption3());
             pollID = pollRVModal.getPollId();
         }
+
+        //if (pollRVModal != null) {
+        // on below line we are setting data to our edit text from our modal class.
+        //    PollNameEdt.setText(pollRVModal.getPollName());
+        //     PollImgEdt.setText(pollRVModal.getPollImg());
+        //     PollDescEdt.setText(pollRVModal.getPollDescription());
+        //    Option1Edt.setText(pollRVModal.getOption1());
+        //    Option2Edt.setText(pollRVModal.getOption2());
+        //    Option3Edt.setText(pollRVModal.getOption3());
+        //   pollID = pollRVModal.getPollId();
+        // }
         getData();
+
         // on below line we are adding click listener for our update Poll button.
         updatePollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updatePoll();
+                String pollName = PollNameEdt.getText().toString();
+                String pollDesc = PollDescEdt.getText().toString();
+                String pollImg = PollImgEdt.getText().toString();
+                String option1 = Option1Edt.getText().toString();
+                String option2 = Option2Edt.getText().toString();
+                String option3 = Option3Edt.getText().toString();
+                pollID = pollName;
+
+                updatePoll(pollName, pollDesc, pollImg, option1, option2, option3,pollID);
             }
         });
 
         // adding a click listener for our delete Poll button.
         deletePollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // calling a method to delete a Poll.
-                deletePoll();
+            public void onClick(View view) {
+
+                deletePoll(pollID);
             }
         });
     }
 
-    private void deletePoll() {
-        // on below line calling a method to delete the Poll.
-        databaseReference.child("Homes").child(retrieveID).child("polls").child(pollID).removeValue();
-        // displaying a toast message on below line.
-        Toast.makeText(this, "Poll Deleted..", Toast.LENGTH_SHORT).show();
-        // opening a main activity on below line.
-        startActivity(new Intent(EditPollActivity.this, PollActivity.class));
+    private void deletePoll(String pollID) {
+
+
+        databaseReference = firebaseDatabase.getInstance().getReference("Homes").child(retrieveID).child("polls");
+        databaseReference.child(pollID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(EditPollActivity.this, "Poll deleted..", Toast.LENGTH_SHORT).show();
+                    // opening a new activity after updating our coarse.
+                    startActivity(new Intent(EditPollActivity.this, PollActivity.class));
+
+                } else {
+                    Toast.makeText(EditPollActivity.this, "Poll failed to delete..", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
-    private void updatePoll() {
+    private void updatePoll(String pollName, String pollDesc, String pollImg, String option1, String option2, String option3,String pollID) {
 
         loadingPB.setVisibility(View.VISIBLE);
-        // on below line we are getting data from our edit text.
-        String pollName = PollNameEdt.getText().toString();
-        String pollDesc = PollDescEdt.getText().toString();
-        String pollImg = PollImgEdt.getText().toString();
-        String option1 = Option1Edt.getText().toString();
-        String option2 = Option2Edt.getText().toString();
-        String option3 = Option3Edt.getText().toString();
         // on below line we are creating a map for
         // passing a data using key and value pair.
         Map<String, Object> map = new HashMap<>();
@@ -123,54 +147,67 @@ public class EditPollActivity extends AppCompatActivity {
         map.put("option1", option1);
         map.put("option2", option2);
         map.put("option3", option3);
-        map.put("votes1", votes1);
-        map.put("votes3", votes3);
-        map.put("votes2", votes2);
-        map.put("option2", option2);
-        map.put("option3", option3);
         map.put("pollId", pollID);
-
-        // on below line we are calling a database reference on
-        // add value event listener and on data change method
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference = firebaseDatabase.getInstance().getReference("Homes").child(retrieveID).child("polls");
+        databaseReference.child(pollID).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // making progress bar visibility as gone.
-                loadingPB.setVisibility(View.GONE);
-                // adding a map to our database.
-                databaseReference.child("Homes").child(retrieveID).child("polls").child(pollID).updateChildren(map);
-                // on below line we are displaying a toast message.
-                Toast.makeText(EditPollActivity.this, "Poll Updated..", Toast.LENGTH_SHORT).show();
-                // opening a new activity after updating our coarse.
-                startActivity(new Intent(EditPollActivity.this, PollActivity.class));
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(EditPollActivity.this, "Poll Updated..", Toast.LENGTH_SHORT).show();
+                    // opening a new activity after updating our coarse.
+                    startActivity(new Intent(EditPollActivity.this, PollActivity.class));
+
+                } else {
+                    Toast.makeText(EditPollActivity.this, "Poll failed to Updated..", Toast.LENGTH_SHORT).show();
+                }
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // displaying a failure message on toast.
-                Toast.makeText(EditPollActivity.this, "Fail to update Poll..", Toast.LENGTH_SHORT).show();
-            }
+            ;
+            // on below line we are calling a database reference on
+            // add value event listener and on data change method
+            // databaseReference.addValueEventListener(new ValueEventListener() {
+            //  @Override
+            //   public void onDataChange(@NonNull DataSnapshot snapshot) {
+            // making progress bar visibility as gone.
+            //       loadingPB.setVisibility(View.GONE);
+            // adding a map to our database.
+            //      databaseReference.child("Homes").child(retrieveID).child("polls").child(pollID).updateChildren(map);
+            // on below line we are displaying a toast message.
+            //     Toast.makeText(EditPollActivity.this, "Poll Updated..", Toast.LENGTH_SHORT).show();
+            // opening a new activity after updating our coarse.
+            //     startActivity(new Intent(EditPollActivity.this, PollActivity.class));
+            //   }
+
+            //  @Override
+            //   public void onCancelled(@NonNull DatabaseError error) {
+            // displaying a failure message on toast.
+            //        Toast.makeText(EditPollActivity.this, "Fail to update Poll..", Toast.LENGTH_SHORT).show();
+            //      }
+            //  });
         });
     }
 
+        private void getData () {
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
 
-    private void getData() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
+                    homeID = snapshot.child("NewUsers").child(userID).child("home").getValue(String.class);
 
-                homeID = snapshot.child("NewUsers").child(userID).child("home").getValue(String.class);
+                    // after getting the value we are setting
+                    // our value to our text view in below line.
+                    retrieveID = homeID;
+                }
 
-                // after getting the value we are setting
-                // our value to our text view in below line.
-                retrieveID = homeID;
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
 
-            }
-        });
+
+        }
     }
-}
+
+
