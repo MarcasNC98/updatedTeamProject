@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pollingtest">
-
-    <!--permissions for internet-->
+    <!-- permissions for internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -14,25 +13,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirebaseCrudApp">
         <activity
-            android:name=".ChooseHouseActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".GroceryActivity"
+            android:name=".Login.ChooseHouseActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".GroceryList.GroceryActivity"
             android:exported="false" />
         <activity
-            android:name=".EditPollActivity"
+            android:name=".Login.RegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Polls.EditPollActivity"
             android:label="Edit Poll" />
         <activity
-            android:name=".VotingActivity"
+            android:name=".Polls.VotingActivity"
             android:label="Vote" />
         <activity
-            android:name=".AddPollActivity"
-            android:label="Add Poll" />
-        <!--login activity is set as launcher activity-->
-        <activity android:name=".LoginActivity"
+            android:name=".Polls.AddPollActivity"
+            android:label="Add Poll" /> <!-- login activity is set as launcher activity -->
+        <activity
+            android:name=".Login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PollActivity" />
+        <activity android:name=".Polls.PollActivity" />
     </application>
 
 </manifest>

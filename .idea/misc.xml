@@ -16,16 +16,24 @@
         <entry key="..\:/Users/James/AndroidStudioProjects/pollingTest/app/src/main/res/layout/bottom_sheet_layout.xml" value="0.358695652173913" />
         <entry key="..\:/Users/James/AndroidStudioProjects/pollingTest/app/src/main/res/layout/poll_rv_item.xml" value="0.358695652173913" />
         <entry key="..\:/Users/James/AndroidStudioProjects/pollingTest/app/src/main/res/menu/menu_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/drawable-v24/rounded_drawable.xml" value="0.2655" />
+        <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/drawable/ic_baseline_cleaning_services_24.xml" value="0.362" />
+        <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/drawable/ic_baseline_poll_24.xml" value="0.2655" />
+        <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/drawable/ic_grocery.xml" value="0.362" />
+        <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/drawable/item_selector.xml" value="0.2655" />
+        <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/drawable/round_corner.xml" value="0.2655" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/activity_add_poll.xml" value="0.348731884057971" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/activity_choose_house.xml" value="0.348731884057971" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/activity_login2.xml" value="0.16847826086956522" />
+        <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/activity_polls.xml" value="0.348731884057971" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/activity_registration_page.xml" value="0.348731884057971" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/grocerylistapp.xml" value="0.348731884057971" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/info_output.xml" value="0.348731884057971" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/input.xml" value="0.223731884057971" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/layout/poll_rv_item.xml" value="0.348731884057971" />
+        <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/menu/item_menu.xml" value="0.3453125" />
         <entry key="..\:/Users/James/StudioProjects/Project/app/src/main/res/menu/menu_main.xml" value="0.25052083333333336" />
       </map>
     </option>

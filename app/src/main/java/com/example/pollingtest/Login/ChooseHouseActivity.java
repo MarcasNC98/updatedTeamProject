@@ -1,4 +1,4 @@
-package com.example.pollingtest;
+package com.example.pollingtest.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pollingtest.GroceryList.GroceryActivity;
+import com.example.pollingtest.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +48,7 @@ public class ChooseHouseActivity extends AppCompatActivity {
 
                 String uId=newUser.getUid();
                 newReference.child("NewUsers").child(uId).child("home").setValue(houseID);
-                startActivity(new Intent(getApplicationContext(), com.example.pollingtest.GroceryActivity.class));
+                startActivity(new Intent(getApplicationContext(), GroceryActivity.class));
             }
         });
 

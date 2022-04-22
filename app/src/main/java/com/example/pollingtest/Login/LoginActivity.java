@@ -1,4 +1,4 @@
-package com.example.pollingtest;
+package com.example.pollingtest.Login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pollingtest.GroceryList.GroceryActivity;
+import com.example.pollingtest.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -95,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //If the task is successful, a new activity is started that will get the HomePage class and redirect the user to the apps home page
                         if (task.isSuccessful()) {
-                            startActivity(new Intent(getApplicationContext(), com.example.pollingtest.GroceryActivity.class));
+                            startActivity(new Intent(getApplicationContext(), GroceryActivity.class));
                             //A toast dialog message will pop up on the screen informing the user that they have been logged in successfully
                             Toast.makeText(getApplicationContext(), "Logged In", Toast.LENGTH_SHORT).show();
 
@@ -118,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //When clicked, an activity will start that will get the RegistrationPage java class and the user will be redirected to the registration screen where they can create an account
-                startActivity(new Intent(getApplicationContext(), com.example.pollingtest.RegistrationActivity.class));
+                startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
             }
         });
 

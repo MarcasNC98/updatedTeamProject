@@ -1,4 +1,4 @@
-package com.example.pollingtest;
+package com.example.pollingtest.Polls;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pollingtest.Data.Info;
+import com.example.pollingtest.Login.LoginActivity;
+import com.example.pollingtest.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;

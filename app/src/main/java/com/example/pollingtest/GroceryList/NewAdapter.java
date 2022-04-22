@@ -1,4 +1,4 @@
-package com.example.pollingtest;
+package com.example.pollingtest.GroceryList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pollingtest.Data.Info;
+import com.example.pollingtest.R;
 
 import java.util.ArrayList;
 

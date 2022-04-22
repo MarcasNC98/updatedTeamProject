@@ -1,4 +1,4 @@
-package com.example.pollingtest;
+package com.example.pollingtest.Polls;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pollingtest.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -74,19 +75,15 @@ public class EditPollActivity extends AppCompatActivity {
 
         if (pollRVModal != null) {
             // on below line we are setting data to our edit text from our modal class.
+            PollNameEdt.setText(pollRVModal.getPollName());
+            PollImgEdt.setText(pollRVModal.getPollImg());
+            PollDescEdt.setText(pollRVModal.getPollDescription());
+            Option1Edt.setText(pollRVModal.getOption1());
+            Option2Edt.setText(pollRVModal.getOption2());
+            Option3Edt.setText(pollRVModal.getOption3());
             pollID = pollRVModal.getPollId();
         }
 
-        //if (pollRVModal != null) {
-        // on below line we are setting data to our edit text from our modal class.
-        //    PollNameEdt.setText(pollRVModal.getPollName());
-        //     PollImgEdt.setText(pollRVModal.getPollImg());
-        //     PollDescEdt.setText(pollRVModal.getPollDescription());
-        //    Option1Edt.setText(pollRVModal.getOption1());
-        //    Option2Edt.setText(pollRVModal.getOption2());
-        //    Option3Edt.setText(pollRVModal.getOption3());
-        //   pollID = pollRVModal.getPollId();
-        // }
         getData();
 
         // on below line we are adding click listener for our update Poll button.
@@ -99,9 +96,10 @@ public class EditPollActivity extends AppCompatActivity {
                 String option1 = Option1Edt.getText().toString();
                 String option2 = Option2Edt.getText().toString();
                 String option3 = Option3Edt.getText().toString();
-                pollID = pollName;
+                
 
-                updatePoll(pollName, pollDesc, pollImg, option1, option2, option3,pollID);
+                updatePoll(pollName, pollDesc, pollImg, option1, option2, option3, pollID);
+
             }
         });
 
@@ -135,7 +133,7 @@ public class EditPollActivity extends AppCompatActivity {
 
     }
 
-    private void updatePoll(String pollName, String pollDesc, String pollImg, String option1, String option2, String option3,String pollID) {
+    private void updatePoll(String pollName, String pollDesc, String pollImg, String option1, String option2, String option3, String pollID) {
 
         loadingPB.setVisibility(View.VISIBLE);
         // on below line we are creating a map for
@@ -187,27 +185,27 @@ public class EditPollActivity extends AppCompatActivity {
         });
     }
 
-        private void getData () {
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
+    private void getData() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
 
-                    homeID = snapshot.child("NewUsers").child(userID).child("home").getValue(String.class);
+                homeID = snapshot.child("NewUsers").child(userID).child("home").getValue(String.class);
 
-                    // after getting the value we are setting
-                    // our value to our text view in below line.
-                    retrieveID = homeID;
-                }
+                // after getting the value we are setting
+                // our value to our text view in below line.
+                retrieveID = homeID;
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
+            }
+        });
 
 
-        }
     }
+}
 
 

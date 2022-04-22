@@ -1,6 +1,5 @@
-package com.example.pollingtest;
+package com.example.pollingtest.Polls;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pollingtest.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

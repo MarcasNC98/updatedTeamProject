@@ -1,4 +1,4 @@
-package com.example.pollingtest;
+package com.example.pollingtest.Login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pollingtest.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -128,7 +129,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             newReference.child("NewUsers").child(uId).child("Name").setValue(name);
 
-                            startActivity(new Intent(getApplicationContext(), com.example.pollingtest.ChooseHouseActivity.class));
+                            startActivity(new Intent(getApplicationContext(), ChooseHouseActivity.class));
                             //A toast dialog message will pop up on the screen informing the user that their account has been created successfully
                             Toast.makeText(getApplicationContext(),"Account created",Toast.LENGTH_SHORT).show();
 

@@ -1,4 +1,4 @@
-package com.example.pollingtest;
+package com.example.pollingtest.Polls;
 
 import android.os.Parcel;
 import android.os.Parcelable;

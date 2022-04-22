@@ -1,4 +1,4 @@
-package com.example.pollingtest;
+package com.example.pollingtest.GroceryList;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pollingtest.Data.Info;
+import com.example.pollingtest.Polls.PollActivity;
+import com.example.pollingtest.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -118,7 +120,7 @@ public class GroceryActivity extends AppCompatActivity {
         pollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), com.example.pollingtest.PollActivity.class));
+                startActivity(new Intent(getApplicationContext(), PollActivity.class));
             }
         });
     }
