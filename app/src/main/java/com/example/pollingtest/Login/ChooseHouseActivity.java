@@ -94,13 +94,6 @@ public class ChooseHouseActivity extends AppCompatActivity {
 
 
     private void getData(){
-
-        //Returns an instance of FirebaseAuth and ties it to newAuth
-        newAuth = FirebaseAuth.getInstance();
-        //Creates a FirebaseUser class called newUser and ties it to newAuth.getCurrentUser that will retrieve the current users credentials
-        FirebaseUser newUser = newAuth.getCurrentUser();
-
-
         newReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -108,8 +101,9 @@ public class ChooseHouseActivity extends AppCompatActivity {
                 for(DataSnapshot getHomesID: snapshot.child("Homes").getChildren()) {
                     System.out.println("TEST000000000000000000"+homeIDInput);
                     System.out.println("TEST000000000000000000"+getHomesID.getKey());
-                    if (homeIDInput==getHomesID.getKey()){
+                    if (homeIDInput.equals(getHomesID.getKey())){
                         setData(getHomesID.getKey());
+                        startActivity(new Intent(getApplicationContext(), GroceryActivity.class));
                     } else {
                         Toast.makeText(getApplicationContext(), "House doesn't exist", Toast.LENGTH_SHORT).show();
                     }
