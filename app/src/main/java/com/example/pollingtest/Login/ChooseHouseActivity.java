@@ -36,9 +36,11 @@ public class ChooseHouseActivity extends AppCompatActivity {
     private Button joinButton;
     private FirebaseDatabase newDatabase;
     private DatabaseReference newReference;
-    private String homeID,retrieveID,userID,homeIDInput;
-    String houseID;
+    private String homeIDInput;
+    private String houseID;
     private FirebaseAuth newAuth;
+    private FirebaseUser newUser;
+    private String uId;
 
 
 
@@ -49,12 +51,13 @@ public class ChooseHouseActivity extends AppCompatActivity {
 
         createButton = findViewById(R.id.createHouse);
         joinButton = findViewById(R.id.joinHouse);
+
         newDatabase = FirebaseDatabase.getInstance("https://polling-3351e-default-rtdb.europe-west1.firebasedatabase.app/");
         newReference = newDatabase.getReference();
-        //Returns an instance of FirebaseAuth and ties it to newAuth
-        newAuth = FirebaseAuth.getInstance();
-        //Creates a FirebaseUser class called newUser and ties it to newAuth.getCurrentUser that will retrieve the current users credentials
-        FirebaseUser newUser = newAuth.getCurrentUser();
+
+        newAuth = FirebaseAuth.getInstance();//Returns an instance of FirebaseAuth and ties it to newAuth
+        newUser = newAuth.getCurrentUser();//Creates a FirebaseUser class called newUser and ties it to newAuth.getCurrentUser that will retrieve the current users credentials
+        uId = newUser.getUid();
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,11 +65,10 @@ public class ChooseHouseActivity extends AppCompatActivity {
             public void onClick(View view) {
                 houseID = newReference.push().getKey();
                 newReference.child("Homes").child(houseID).child("blank").setValue("");
-
-                String uId = newUser.getUid();
                 newReference.child("NewUsers").child(uId).child("home").setValue(houseID);
 
                 startActivity(new Intent(getApplicationContext(), GroceryActivity.class));
+                finish();//will end the current activity allowing the user to go back
             }
         });
 
@@ -76,47 +78,7 @@ public class ChooseHouseActivity extends AppCompatActivity {
             //When clicked, the dialogBox view will be shown
             public void onClick(View view) {
                 dialogBox();
-            }
-        });
-    }
-
-
-    private void setData(String getHomesID){
-
-        //Returns an instance of FirebaseAuth and ties it to newAuth
-        newAuth = FirebaseAuth.getInstance();
-        //Creates a FirebaseUser class called newUser and ties it to newAuth.getCurrentUser that will retrieve the current users credentials
-        FirebaseUser newUser = newAuth.getCurrentUser();
-
-        String uId = newUser.getUid();
-        newReference.child("NewUsers").child(uId).child("home").setValue(getHomesID);
-
-    }
-
-
-    private void getData(){
-        newReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
-                for(DataSnapshot getHomesID: snapshot.child("Homes").getChildren()) {
-
-
-                    if (homeIDInput.equals(getHomesID.getKey())){
-                        setData(getHomesID.getKey());
-                        startActivity(new Intent(getApplicationContext(), GroceryActivity.class));
-                    } else {
-                        Toast.makeText(getApplicationContext(), "House doesn't exist", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // calling on cancelled method when we receive
-                // any error or we are not able to get the data.
-                // Toast.makeText(MainActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+                System.out.println(">>> IN join house button. Dialog must have been triggered too");
             }
         });
     }
@@ -167,6 +129,31 @@ public class ChooseHouseActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void getData(){
+        newReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
+                for(DataSnapshot getHomesID: snapshot.child("Homes").getChildren()) {
+                    if (homeIDInput.equals(getHomesID.getKey())){
+                        newReference.child("NewUsers").child(uId).child("home").setValue(getHomesID.getKey());
+                        startActivity(new Intent(getApplicationContext(), GroceryActivity.class));
+                        finish();//end the current activity.
+                    } else {
+                        Toast.makeText(getApplicationContext(), "House doesn't exist", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // calling on cancelled method when we receive
+                // any error or we are not able to get the data.
+                // Toast.makeText(MainActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
 
