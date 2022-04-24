@@ -90,11 +90,7 @@ public class GroceryActivity extends AppCompatActivity {
 
                         //Info info = dataSnapshot.getValue(Info.class);
                         //list.add(info);
-
-
-                        System.out.println("TEST11111111111111122222222222222222"+dataSnapshot.getValue());
                         for(DataSnapshot secondSnapshot : snapshot.child("Homes").child(dataSnapshot.getKey()).child("groceryList").getChildren()){
-                            System.out.println("TEST111111111111111"+secondSnapshot.getValue());
                             Info info = secondSnapshot.getValue(Info.class);
                             list.add(info);
 

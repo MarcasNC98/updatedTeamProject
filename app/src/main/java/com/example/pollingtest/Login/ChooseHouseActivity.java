@@ -65,6 +65,7 @@ public class ChooseHouseActivity extends AppCompatActivity {
 
                 String uId = newUser.getUid();
                 newReference.child("NewUsers").child(uId).child("home").setValue(houseID);
+
                 startActivity(new Intent(getApplicationContext(), GroceryActivity.class));
             }
         });
@@ -99,8 +100,8 @@ public class ChooseHouseActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
                 for(DataSnapshot getHomesID: snapshot.child("Homes").getChildren()) {
-                    System.out.println("TEST000000000000000000"+homeIDInput);
-                    System.out.println("TEST000000000000000000"+getHomesID.getKey());
+
+
                     if (homeIDInput.equals(getHomesID.getKey())){
                         setData(getHomesID.getKey());
                         startActivity(new Intent(getApplicationContext(), GroceryActivity.class));
