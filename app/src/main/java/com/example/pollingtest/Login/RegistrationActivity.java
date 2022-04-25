@@ -65,7 +65,7 @@ public class RegistrationActivity extends AppCompatActivity {
         //Returns an instance of FirebaseAuth and ties it to newAuth
         newAuth=FirebaseAuth.getInstance();
         //Creates a FirebaseUser class called newUser and ties it to newAuth.getCurrentUser that will retrieve the current users credentials
-        FirebaseUser newUser=newAuth.getCurrentUser();
+
 
         newDatabase=FirebaseDatabase.getInstance("https://polling-3351e-default-rtdb.europe-west1.firebasedatabase.app/");
         newReference=newDatabase.getReference();
@@ -126,6 +126,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         if (task.isSuccessful()){
                             newDialog.dismiss();//The newDialog loading message is dismissed
 
+                            FirebaseUser newUser=newAuth.getCurrentUser();
                             String uId=newUser.getUid();//Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
                             System.out.println(">>>> uid: "+uId);
                             newReference.child("NewUsers").child(uId).child("Name").setValue(name);
