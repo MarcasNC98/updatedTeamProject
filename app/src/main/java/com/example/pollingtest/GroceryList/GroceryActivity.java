@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pollingtest.Data.Info;
+import com.example.pollingtest.Login.LoginActivity;
 import com.example.pollingtest.Polls.PollActivity;
 import com.example.pollingtest.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -145,6 +148,34 @@ public class GroceryActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // on below line we are inflating our menu
+        // file for displaying our menu options.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // adding a click listener for option selected on below line.
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.idLogOut:
+                // displaying a toast message on user logged out inside on click.
+                Toast.makeText(getApplicationContext(), "User Logged Out", Toast.LENGTH_LONG).show();
+                // on below line we are signing out our user.
+                newAuth.signOut();
+                // on below line we are opening our login activity.
+                Intent i = new Intent(GroceryActivity.this, LoginActivity.class);
+                startActivity(i);
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     //Dialog box for inputting grocery data
     private void dialogBox(){
