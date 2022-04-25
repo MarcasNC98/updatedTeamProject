@@ -3,6 +3,7 @@ package com.example.pollingtest.GroceryList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -121,28 +122,28 @@ public class GroceryActivity extends AppCompatActivity {
         });
     }
 
-private void getData(){
+    private void getData(){
 
-    newReference.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
+        newReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
 
-            homeID = snapshot.child("NewUsers").child(userID).child("home").getValue(String.class);
+                homeID = snapshot.child("NewUsers").child(userID).child("home").getValue(String.class);
 
-            // after getting the value we are setting
-            // our value to our text view in below line.
-            retrieveID=homeID;
-        }
+                // after getting the value we are setting
+                // our value to our text view in below line.
+                retrieveID=homeID;
+            }
 
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
-            // calling on cancelled method when we receive
-            // any error or we are not able to get the data.
-           // Toast.makeText(MainActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
-        }
-    });
-}
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // calling on cancelled method when we receive
+                // any error or we are not able to get the data.
+               // Toast.makeText(MainActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
     //Dialog box for inputting grocery data

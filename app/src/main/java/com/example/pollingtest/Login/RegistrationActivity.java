@@ -65,7 +65,7 @@ public class RegistrationActivity extends AppCompatActivity {
         //Returns an instance of FirebaseAuth and ties it to newAuth
         newAuth=FirebaseAuth.getInstance();
         //Creates a FirebaseUser class called newUser and ties it to newAuth.getCurrentUser that will retrieve the current users credentials
-        FirebaseUser newUser=newAuth.getCurrentUser();
+
 
         newDatabase=FirebaseDatabase.getInstance("https://polling-3351e-default-rtdb.europe-west1.firebasedatabase.app/");
         newReference=newDatabase.getReference();
@@ -80,8 +80,8 @@ public class RegistrationActivity extends AppCompatActivity {
         email_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //When clicked, an activity will start that will get the MainActivity java class and the user will be redirected to the sign in screen
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();//will end the current activity allowing the user to go back
+                //stop executing anything else
             }
         });
 
@@ -124,17 +124,19 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //If the task is successful, a new activity is started that will get the HomePage class and redirect the user to the apps home page
                         if (task.isSuccessful()){
-                            //Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
-                            String uId=newUser.getUid();
+                            newDialog.dismiss();//The newDialog loading message is dismissed
 
+                            FirebaseUser newUser=newAuth.getCurrentUser();
+                            String uId=newUser.getUid();//Creates a string called uId and ties it to newUser.getUid that will retrieve the users generated ID.
+                            System.out.println(">>>> uid: "+uId);
                             newReference.child("NewUsers").child(uId).child("Name").setValue(name);
 
-                            startActivity(new Intent(getApplicationContext(), ChooseHouseActivity.class));
                             //A toast dialog message will pop up on the screen informing the user that their account has been created successfully
                             Toast.makeText(getApplicationContext(),"Account created",Toast.LENGTH_SHORT).show();
 
-                            //The newDialog loading message is dismissed
-                            newDialog.dismiss();
+                            startActivity(new Intent(getApplicationContext(), ChooseHouseActivity.class));
+                            finish();//will end the current activity allowing the user to go back
+
                         }else {
                             //if the task is unsuccessful for any reason, a toast message will pop up on screen informing the user that their account creation failed
                             Toast.makeText(getApplicationContext(),"Sign Up Failed",Toast.LENGTH_SHORT).show();
